@@ -1,6 +1,6 @@
 cask "varys" do
-  version "0.1.0"
-  sha256 "3ff51efdcc0fdb834953a5fe82c910caf9a09f2621669f59823a3ebea02c8f90"
+  version "0.2.0"
+  sha256 "15661a24c94b1ffd97bc10ef439735271fea181f3a26981f64ffb0a032d56f75"
 
   url "https://github.com/mithun-builds/varys/releases/download/v#{version}/Lord-Varys-#{version}-arm64.dmg"
   name "Lord Varys"
@@ -34,10 +34,14 @@ cask "varys" do
       • Or run: xattr -dr com.apple.quarantine "/Applications/Lord Varys.app"
 
     Lord Varys requires Microphone and Screen Recording permissions to
-    capture audio. macOS will prompt for both the first time you click
-    Start Recording.
+    capture audio. The setup guide opens on first launch and walks you
+    through both prompts plus the Whisper model download.
 
     Recordings are saved to ~/Documents/Lord Varys (configurable in
-    Settings). Local Whisper transcription auto-runs after each Stop.
+    Settings). Local Whisper transcription auto-runs after each Stop and
+    writes a markdown .txt + structured .json beside each WAV.
+
+    To stop a running instance before upgrading:
+      pkill -f "Lord Varys|lord_varys|sckit_capture" || true
   EOS
 end
