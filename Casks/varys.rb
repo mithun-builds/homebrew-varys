@@ -1,6 +1,6 @@
 cask "varys" do
-  version "0.2.0"
-  sha256 "15661a24c94b1ffd97bc10ef439735271fea181f3a26981f64ffb0a032d56f75"
+  version "0.2.1"
+  sha256 "928a87d77db164f18321d2971ee338cf73622a4765cb5233d7beb070b1b3929f"
 
   url "https://github.com/mithun-builds/varys/releases/download/v#{version}/Lord-Varys-#{version}-arm64.dmg"
   name "Lord Varys"
@@ -16,6 +16,12 @@ cask "varys" do
   depends_on arch: :arm64
 
   app "Lord Varys.app"
+
+  # `uninstall quit` makes brew terminate any running instance before
+  # replacing the bundle, preventing the "DMG stays mounted, app still
+  # running" upgrade footgun.
+  uninstall quit:        "com.lordvarys.app",
+            launchctl:   "com.lordvarys.app"
 
   zap trash: [
     "~/Library/Application Support/com.lordvarys.app",
@@ -41,7 +47,10 @@ cask "varys" do
     Settings). Local Whisper transcription auto-runs after each Stop and
     writes a markdown .txt + structured .json beside each WAV.
 
-    To stop a running instance before upgrading:
+    Before upgrading, brew now stops any running instance via the
+    `uninstall quit` directive. If a manual cleanup is needed:
+
       pkill -f "Lord Varys|lord_varys|sckit_capture" || true
+      hdiutil detach "/Volumes/Lord Varys 0.2.1" 2>/dev/null || true
   EOS
 end
